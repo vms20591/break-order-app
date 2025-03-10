@@ -6,4 +6,4 @@ Open `index.html` directly in the browser or, host the repo directory in a web s
 
 ## Demo
 
-[Watch a demo here](https://github.com/user/vms20591/blob/main/demo.mp4)
+[Watch a demo here](demo.mp4)
