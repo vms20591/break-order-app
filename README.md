@@ -6,4 +6,4 @@ Open `index.html` directly in the browser or, host the repo directory in a web s
 
 ## Demo
 
-![Watch the demo here](./demo.gif)
+![Watch the demo here](./demo.mp4)
