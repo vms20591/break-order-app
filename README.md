@@ -6,4 +6,4 @@ Open `index.html` directly in the browser or, host the repo directory in a web s
 
 ## Demo
 
-[Watch a demo here](demo.mp4)
+[Watch the demo here](https://github.com/vms20591/break-order-app/blob/main/demo.mp4)
