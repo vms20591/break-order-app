@@ -1,44 +1,53 @@
 // Define menu items with their options
 const menuItems = [
-    { 
-        id: 'coffee', 
-        name: 'Coffee', 
-        icon: 'fa-mug-hot', 
-        hasOptions: true, 
+    {
+        id: 'tea',
+        name: 'Tea',
+        emoji: '🫖',
+        hasOptions: true,
+        options: [
+            { name: 'sugar', label: 'Sugar', choices: ['No Sugar', 'Low Sugar', 'Medium Sugar'] }
+        ]
+    },
+    {
+        id: 'coffee',
+        name: 'Coffee',
+        emoji: '☕',
+        hasOptions: true,
         options: [
             { name: 'strength', label: 'Strength', choices: ['Light', 'Regular', 'Strong'] },
             { name: 'sugar', label: 'Sugar', choices: ['No Sugar', 'Low Sugar', 'Medium Sugar'] }
-        ] 
+        ]
     },
-    { 
-        id: 'tea', 
-        name: 'Tea', 
-        icon: 'fa-mug-saucer', 
+    {
+        id: 'limeSoda',
+        name: 'Lime Soda',
+        emoji: '🥤',
+        hasOptions: false
+    },
+    {
+        id: 'water',
+        name: 'Water Bottle',
+        emoji: '💧',
+        hasOptions: false
+    },
+    {
+        id: 'juice',
+        name: 'Juice',
+        emoji: '🧃',
         hasOptions: true,
         options: [
-            { name: 'sugar', label: 'Sugar', choices: ['No Sugar', 'Low Sugar', 'Medium Sugar'] }
-        ] 
+            { name: 'type', label: 'Type', choices: ['Orange', 'Apple', 'Mixed Fruit'] }
+        ]
     },
-    { 
-        id: 'water', 
-        name: 'Water', 
-        icon: 'fa-droplet', 
-        hasOptions: false 
-    },
-    { 
-        id: 'biscuit', 
-        name: 'Biscuit', 
-        icon: 'fa-cookie', 
-        hasOptions: false 
-    },
-    { 
-        id: 'sandwich', 
-        name: 'Sandwich', 
-        icon: 'fa-utensils', 
+    {
+        id: 'sandwich',
+        name: 'Sandwich',
+        emoji: '🥪',
         hasOptions: true,
         options: [
             { name: 'type', label: 'Type', choices: ['Veg', 'Cheese', 'Chicken'] }
-        ] 
+        ]
     }
 ];
 
@@ -70,27 +79,27 @@ const confirmItems = document.getElementById('confirmItems');
 function init() {
     renderMenuItems();
     setupEventListeners();
+    updateSubmitButton();
 }
 
 // Render menu items
 function renderMenuItems() {
     menuItemsContainer.innerHTML = '';
-    
+
     menuItems.forEach(item => {
         const itemElement = document.createElement('button');
         itemElement.id = `item-${item.id}`;
-        itemElement.className = `menu-item flex flex-col items-center justify-center p-3 rounded-lg border border-gray-300 bg-white ${
-            state.selectedItems.includes(item.id) ? 'item-selected' : ''
-        } ${state.selectedItems.length >= 2 && !state.selectedItems.includes(item.id) ? 'opacity-50 cursor-not-allowed' : ''}`;
+        itemElement.className = `menu-item flex flex-col items-center justify-center p-4 rounded-lg border ${state.selectedItems.includes(item.id) ? 'item-selected' : 'border-gray-200'
+            } ${state.selectedItems.length >= 2 && !state.selectedItems.includes(item.id) ? 'opacity-50 cursor-not-allowed' : ''}`;
         itemElement.disabled = state.selectedItems.length >= 2 && !state.selectedItems.includes(item.id);
         itemElement.dataset.id = item.id;
-        
+
         itemElement.innerHTML = `
-            <i class="fas ${item.icon} item-icon"></i>
-            <span class="text-xs text-center">${item.name}</span>
+            <div class="text-4xl mb-2">${item.emoji}</div>
+            <span class="text-sm text-center">${item.name}</span>
             ${renderSelectedOptions(item)}
         `;
-        
+
         menuItemsContainer.appendChild(itemElement);
     });
 }
@@ -112,31 +121,30 @@ function renderSelectedOptions(item) {
 function renderItemOptions(item) {
     optionsTitle.textContent = `Select options for ${item.name}`;
     optionsContent.innerHTML = '';
-    
+
     item.options.forEach(option => {
         const optionContainer = document.createElement('div');
-        optionContainer.className = 'mb-3';
-        
+        optionContainer.className = 'mb-4';
+
         const optionLabel = document.createElement('label');
-        optionLabel.className = 'block text-sm font-medium text-gray-700 mb-1';
+        optionLabel.className = 'block text-base font-medium text-gray-700 mb-2';
         optionLabel.textContent = option.label;
-        
+
         const choicesContainer = document.createElement('div');
         choicesContainer.className = 'grid grid-cols-3 gap-2';
-        
+
         option.choices.forEach(choice => {
             const choiceButton = document.createElement('button');
             choiceButton.type = 'button';
-            choiceButton.className = `option-button p-2 text-xs border rounded-md ${
-                state.options[item.id]?.[option.name] === choice ? 'option-selected' : 'border-gray-300'
-            }`;
+            choiceButton.className = `option-button p-2 text-sm border rounded-md ${state.options[item.id]?.[option.name] === choice ? 'option-selected' : 'border-gray-300'
+                }`;
             choiceButton.textContent = choice;
             choiceButton.dataset.option = option.name;
             choiceButton.dataset.choice = choice;
-            
+
             choicesContainer.appendChild(choiceButton);
         });
-        
+
         optionContainer.appendChild(optionLabel);
         optionContainer.appendChild(choicesContainer);
         optionsContent.appendChild(optionContainer);
@@ -146,7 +154,7 @@ function renderItemOptions(item) {
 // Handle item selection
 function handleItemSelect(itemId) {
     const item = menuItems.find(i => i.id === itemId);
-    
+
     if (state.selectedItems.includes(itemId)) {
         // If item is already selected, remove it
         state.selectedItems = state.selectedItems.filter(id => id !== itemId);
@@ -155,7 +163,7 @@ function handleItemSelect(itemId) {
         // If item is not selected, add it if less than 2 items are selected
         if (state.selectedItems.length < 2) {
             state.selectedItems.push(itemId);
-            
+
             // If item has options, show options modal
             if (item.hasOptions) {
                 state.currentItem = item;
@@ -164,7 +172,7 @@ function handleItemSelect(itemId) {
             }
         }
     }
-    
+
     renderMenuItems();
     updateSubmitButton();
 }
@@ -174,9 +182,9 @@ function handleOptionSelect(optionName, choice) {
     if (!state.options[state.currentItem.id]) {
         state.options[state.currentItem.id] = {};
     }
-    
+
     state.options[state.currentItem.id][optionName] = choice;
-    
+
     // Update the option buttons
     const optionButtons = optionsContent.querySelectorAll(`[data-option="${optionName}"]`);
     optionButtons.forEach(button => {
@@ -191,7 +199,7 @@ function handleOptionSelect(optionName, choice) {
 // Handle form submission
 function handleSubmit() {
     const name = nameInput.value.trim();
-    
+
     if (name && state.selectedItems.length > 0) {
         state.name = name;
         showOrderConfirmation();
@@ -199,7 +207,7 @@ function handleSubmit() {
         if (!name) {
             nameInput.classList.add('border-red-500');
         }
-        
+
         if (state.selectedItems.length === 0) {
             selectionError.classList.remove('hidden');
         }
@@ -210,14 +218,14 @@ function handleSubmit() {
 function showOrderConfirmation() {
     confirmName.textContent = state.name;
     confirmItems.innerHTML = '';
-    
+
     state.selectedItems.forEach(itemId => {
         const item = menuItems.find(i => i.id === itemId);
         const itemElement = document.createElement('li');
         itemElement.className = 'mb-2';
-        
+
         let itemHtml = `<div class="font-medium">${item.name}</div>`;
-        
+
         if (state.options[itemId]) {
             itemHtml += '<ul class="list-none pl-2 text-sm text-gray-600">';
             for (const [key, value] of Object.entries(state.options[itemId])) {
@@ -225,11 +233,11 @@ function showOrderConfirmation() {
             }
             itemHtml += '</ul>';
         }
-        
+
         itemElement.innerHTML = itemHtml;
         confirmItems.appendChild(itemElement);
     });
-    
+
     orderForm.classList.add('hidden');
     orderConfirmation.classList.remove('hidden');
     orderConfirmation.classList.add('fade-in');
@@ -241,14 +249,14 @@ function resetOrder() {
     state.selectedItems = [];
     state.options = {};
     state.currentItem = null;
-    
+
     nameInput.value = '';
     nameInput.classList.remove('border-red-500');
     selectionError.classList.add('hidden');
-    
+
     renderMenuItems();
     updateSubmitButton();
-    
+
     orderConfirmation.classList.add('hidden');
     orderForm.classList.remove('hidden');
     orderForm.classList.add('fade-in');
@@ -280,7 +288,7 @@ function setupEventListeners() {
             handleItemSelect(menuItem.dataset.id);
         }
     });
-    
+
     // Option selection
     optionsContent.addEventListener('click', (e) => {
         const optionButton = e.target.closest('.option-button');
@@ -288,22 +296,22 @@ function setupEventListeners() {
             handleOptionSelect(optionButton.dataset.option, optionButton.dataset.choice);
         }
     });
-    
+
     // Form submission
     submitOrder.addEventListener('click', handleSubmit);
-    
+
     // New order
     newOrder.addEventListener('click', resetOrder);
-    
+
     // Cancel options
     cancelOptions.addEventListener('click', closeOptionsModal);
-    
+
     // Save options
     saveOptions.addEventListener('click', () => {
         closeOptionsModal();
         renderMenuItems();
     });
-    
+
     // Name input validation
     nameInput.addEventListener('input', () => {
         nameInput.classList.remove('border-red-500');

@@ -1,4 +1,4 @@
-/* Additional custom styles can be added here */
+/* Additional custom styles */
 
 /* Animation for transitions */
 .fade-in {
@@ -6,8 +6,13 @@
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 /* Selected item highlight */
@@ -23,20 +28,15 @@
     color: #1d4ed8 !important;
 }
 
-/* Optional - add smooth transitions */
-.menu-item, .option-button {
+/* Smooth transitions */
+.menu-item,
+.option-button {
     transition: all 0.2s ease-in-out;
 }
 
 .menu-item:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-/* Ensure icons are centered and properly sized */
-.item-icon {
-    font-size: 1.75rem;
-    margin-bottom: 0.25rem;
 }
 
 /* Options display in selected items */
