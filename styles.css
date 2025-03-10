@@ -1,0 +1,52 @@
+/* Additional custom styles can be added here */
+
+/* Animation for transitions */
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Selected item highlight */
+.item-selected {
+    border-color: #3b82f6 !important;
+    background-color: #eff6ff !important;
+}
+
+/* Option selected highlight */
+.option-selected {
+    border-color: #3b82f6 !important;
+    background-color: #eff6ff !important;
+    color: #1d4ed8 !important;
+}
+
+/* Optional - add smooth transitions */
+.menu-item, .option-button {
+    transition: all 0.2s ease-in-out;
+}
+
+.menu-item:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure icons are centered and properly sized */
+.item-icon {
+    font-size: 1.75rem;
+    margin-bottom: 0.25rem;
+}
+
+/* Options display in selected items */
+.selected-options {
+    margin-top: 0.25rem;
+    font-size: 0.7rem;
+    color: #2563eb;
+}
+
+.selected-option {
+    display: block;
+    line-height: 1.2;
+}
